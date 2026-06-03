@@ -1,3 +1,45 @@
+// ===== TYPING EFFECT =====
+function startTypingEffect() {
+  const words = ['Food', 'Coffee', 'Drinks'];
+  const el = document.getElementById('typingText');
+  if (!el) return;
+
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typeSpeed = 120;
+  const deleteSpeed = 70;
+  const pauseAfterWord = 1400;
+  const pauseBeforeDelete = 300;
+
+  function type() {
+    const currentWord = words[wordIndex];
+
+    if (!isDeleting) {
+      el.textContent = currentWord.slice(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === currentWord.length) {
+        isDeleting = true;
+        setTimeout(type, pauseAfterWord);
+        return;
+      }
+      setTimeout(type, typeSpeed);
+    } else {
+      el.textContent = currentWord.slice(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(type, pauseBeforeDelete);
+        return;
+      }
+      setTimeout(type, deleteSpeed);
+    }
+  }
+
+  type();
+}
+
 // ===== TRANSLATIONS =====
 const translations = {
   en: {
@@ -26,6 +68,10 @@ const translations = {
     conPhone: "Phone", conHours: "Hours", conHoursVal: "Open Daily: 7:00 AM – 9:00 PM",
     conMapBtn: "Open in Maps",
     conSocial: "Message Us Directly", conSocialSub: "We reply quickly on WhatsApp and Facebook!",
+    ownerTag: "A Message from the Owner",
+    ownerMsg: "Welcome to our restaurant. What started as a passion for great food, beverages, and genuine hospitality has grown into a place where friends and families come together to create memorable experiences. Coming back to my hometown, I have always carried a deep passion to create something meaningful for our community. We are committed to serving fresh, high-quality dishes, along with freshly brewed beans coffee, while making every guest feel at home. Thank you for being part of our journey and for allowing us to share our love of food and coffee with you.",
+    ownerName: "Suman Sharma",
+    ownerRestaurant: "Bamboo Garden Restaurant & Bar",
     footerCopy: "© 2026 Bamboo Garden Restaurant & Bar. All Rights Reserved."
   },
   ne: {
@@ -54,6 +100,10 @@ const translations = {
     conPhone: "फोन", conHours: "समय", conHoursVal: "दैनिक खुला: बिहान ७:०० – बेलुका ९:०० बजे",
     conMapBtn: "नक्सामा खोल्नुहोस्",
     conSocial: "हामीलाई सीधा सन्देश पठाउनुहोस्", conSocialSub: "हामी ह्वाट्सएप र फेसबुकमा छिटो जवाफ दिन्छौं!",
+    ownerTag: "मालिकको सन्देश",
+    ownerMsg: "हाम्रो रेस्टुरेन्टमा स्वागत छ। राम्रो खाना, पेय पदार्थ र सच्चा आतिथ्यप्रतिको जोशबाट सुरु भएको यो यात्रा आज एक त्यस्तो ठाउँमा परिणत भएको छ जहाँ साथीहरू र परिवारहरू यादगार पलहरू बनाउन भेला हुन्छन्। आफ्नो जन्मभूमि फर्केर, मैले सधैं आफ्नो समुदायका लागि केही अर्थपूर्ण निर्माण गर्ने गहिरो जोश बोकेको छु। हामी ताजा, उच्च गुणस्तरका परिकारहरू र ताजा पिसेको बिन्स कफीसहित हरेक अतिथिलाई घरजस्तो महसुस गराउन प्रतिबद्ध छौं। हाम्रो यात्राको हिस्सा बन्नुभएकोमा र हाम्रो खाना र कफीप्रतिको माया साझा गर्न अनुमति दिनुभएकोमा धन्यवाद।",
+    ownerName: "सुमन शर्मा",
+    ownerRestaurant: "Bamboo Garden Restaurant & Bar",
     footerCopy: "© २०२६ Bamboo Garden Restaurant & Bar। सर्वाधिकार सुरक्षित।"
   }
 };
@@ -115,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrollTopBtn = document.querySelector('.scroll-top');
   window.addEventListener('scroll', () => scrollTopBtn.classList.toggle('visible', window.scrollY > 400));
   scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Typing effect
+  startTypingEffect();
 
   // Fade-in observer
   const observer = new IntersectionObserver((entries) => {
